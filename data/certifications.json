@@ -1,0 +1,49 @@
+{
+  "certifications": [
+    {
+      "id": "AZ-204",
+      "title": "Developing Solutions for Microsoft Azure",
+      "role": "Cloud Engineer",
+      "skills": ["API Development", "Azure Functions", "Storage", "Containers"],
+      "recommended_hours": 20,
+      "difficulty": "Intermediate",
+      "prerequisites": ["AZ-900"]
+    },
+    {
+      "id": "AZ-900",
+      "title": "Microsoft Azure Fundamentals",
+      "role": "All",
+      "skills": ["Cloud Concepts", "Azure Services", "Pricing", "Security"],
+      "recommended_hours": 10,
+      "difficulty": "Beginner",
+      "prerequisites": []
+    },
+    {
+      "id": "AZ-104",
+      "title": "Microsoft Azure Administrator",
+      "role": "Cloud Engineer",
+      "skills": ["Azure AD", "Networking", "Storage", "Compute", "Monitoring"],
+      "recommended_hours": 25,
+      "difficulty": "Intermediate",
+      "prerequisites": ["AZ-900"]
+    },
+    {
+      "id": "AZ-400",
+      "title": "Designing and Implementing DevOps Solutions",
+      "role": "DevOps Engineer",
+      "skills": ["CI/CD", "Monitoring", "GitHub Actions", "pipelines"],
+      "recommended_hours": 25,
+      "difficulty": "Advanced",
+      "prerequisites": ["AZ-104"]
+    },
+    {
+      "id": "DP-203",
+      "title": "Data Engineering on Microsoft Azure",
+      "role": "Data Engineer",
+      "skills": ["Data Factory", "Synapse", "Stream Analytics", "Data Lake"],
+      "recommended_hours": 30,
+      "difficulty": "Advanced",
+      "prerequisites": ["AZ-900"]
+    }
+  ]
+}

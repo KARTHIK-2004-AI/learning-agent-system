@@ -1,0 +1,37 @@
+{
+  "learners": [
+    {
+      "id": "L-1001",
+      "name": "Alex (Synthetic)",
+      "role": "Cloud Engineer",
+      "certification_target": "AZ-204",
+      "hours_available_per_week": 6,
+      "weeks_until_exam": 8,
+      "current_score": 45,
+      "study_hours_completed": 8,
+      "status": "In Progress"
+    },
+    {
+      "id": "L-1002",
+      "name": "Jordan (Synthetic)",
+      "role": "DevOps Engineer",
+      "certification_target": "AZ-400",
+      "hours_available_per_week": 8,
+      "weeks_until_exam": 6,
+      "current_score": 60,
+      "study_hours_completed": 15,
+      "status": "In Progress"
+    },
+    {
+      "id": "L-1003",
+      "name": "Morgan (Synthetic)",
+      "role": "Data Engineer",
+      "certification_target": "DP-203",
+      "hours_available_per_week": 5,
+      "weeks_until_exam": 10,
+      "current_score": 55,
+      "study_hours_completed": 12,
+      "status": "In Progress"
+    }
+  ]
+}
