@@ -1,12 +1,6 @@
 # Enterprise Learning Agent System
-> Multi-agent AI system for enterprise certification programme management
+> Multi-agent AI system for enterprise certification programme management  
 > Built for: Microsoft Foundry Reasoning Agents Challenge
-<img width="1352" height="576" alt="image" src="https://github.com/user-attachments/assets/ba9d739c-c359-4679-957a-854f8b0eaa81" />
-<img width="1169" height="472" alt="image" src="https://github.com/user-attachments/assets/ea0f1c89-d5cd-41b1-bdc7-841613d4bbdf" />
-<img width="1168" height="483" alt="image" src="https://github.com/user-attachments/assets/3124f382-15ff-491c-b758-b2e3c79ff5f5" />
-<img width="1165" height="595" alt="image" src="https://github.com/user-attachments/assets/d2a7550d-d6db-4588-99e2-3b201e90c585" />
-
-
 
 ---
 
@@ -19,10 +13,61 @@ recommendation to team-level risk analysis.
 
 ---
 
+## Screenshots
+
+### Configure Learner & Run Agents
+# Enterprise Learning Agent System
+> Multi-agent AI system for enterprise certification programme management  
+> Built for: Microsoft Foundry Reasoning Agents Challenge
+
+---
+
+## Live Demo
+🎥 [Watch 2 minute demo](#) — *add your video link here*
+
+---
+
+## What This System Does
+
+This system helps organisations manage internal certification programmes
+using a chain of specialised AI agents. Each agent has one job, and
+together they form a complete reasoning pipeline — from learning path
+recommendation to team-level risk analysis.
+
+---
+
+## Screenshots
+
+### Configure Learner & Run Agents
+<img width="1352" height="576" alt="image" src="https://github.com/user-attachments/assets/b1325af1-ce88-47b6-bdb3-59042f4130c3" />
+
+### Learning Path & Study Plan
+<img width="1157" height="471" alt="image" src="https://github.com/user-attachments/assets/36d4cfe6-9cec-4add-a45f-46926df70ba4" />
+
+### Assessment Agent + Manager Insights
+<img width="1164" height="470" alt="image" src="https://github.com/user-attachments/assets/114d3d2c-8ec1-490a-984d-fa5132094ecf" />
+
+
+
+### Engagement Agent + Final Verdict
+<img width="1165" height="595" alt="image" src="https://github.com/user-attachments/assets/a5f2dee2-474e-47f4-99f7-6a5ea878358b" />
+
+---
+
 ## Agent Architecture
-ser Input
-│
-▼
+
+### Assessment Agent + Manager Insights
+![Agents Output](screenshots/agents-output.png)
+
+### Engagement Agent + Final Verdict
+![Final Verdict](screenshots/verdict.png)
+
+---
+
+## Agent Architecture
+User Input 
+│ 
+▼ 
 [Agent 1] Learning Path Curator
 │  Recommends certifications grounded in approved knowledge base
 │
@@ -51,24 +96,33 @@ System Summary + Verdict
 
 | IQ Layer | How This System Uses It |
 |---|---|
-| **Foundry IQ** | Agents are grounded in a certifications knowledge base. Only approved certifications are recommended — no hallucination |
+| **Foundry IQ** | Agents grounded in certifications knowledge base — only approved certifications recommended, no hallucination |
 | **Fabric IQ** | Structured semantic data models learner profiles, roles, skill gaps, study hours, and pass thresholds |
 | **Work IQ** | Engagement Agent reads work signals — meeting load, focus hours, preferred slots — to recommend realistic study windows |
 
 ---
-## Foundry IQ Implementation Note
+
+## Foundry IQ Implementation
 
 Real Foundry IQ connects to Azure Blob Storage, SharePoint, or OneLake.
-In this implementation, `data/certifications.json` acts as the knowledge 
-base. Agents are instructed to ONLY recommend from this source and MUST 
-cite certification IDs — replicating Foundry IQ's grounded, 
-citation-required retrieval behaviour.
+In this implementation, `data/certifications.json` acts as the knowledge base.
+Agents are instructed to ONLY recommend from this source and MUST cite
+certification IDs — replicating Foundry IQ's grounded, citation-required
+retrieval behaviour.
 
-To connect real Foundry IQ:
-1. Upload certifications.json to Azure Blob Storage
-2. Index with Azure AI Search  
+**To connect real Foundry IQ:**
+1. Upload `certifications.json` to Azure Blob Storage
+2. Index with Azure AI Search
 3. Connect to Foundry Agent via knowledge base configuration
 4. Replace JSON loader with Foundry IQ retrieval call
+
+**What grounding prevents:**
+- Agents cannot recommend certifications outside the knowledge base
+- Prerequisites are enforced (AZ-900 before AZ-204)
+- Every recommendation includes a cited certification ID
+- Assessment questions map to approved skill areas only
+
+---
 
 ## Agent Responsibilities
 
@@ -120,57 +174,51 @@ To connect real Foundry IQ:
 ## Project Structure
 learning-agent-system/
 ├── agents/
-│   ├── learning_path_curator.py    # Agent 1
-│   ├── study_plan_generator.py     # Agent 2
-│   ├── assessment_agent.py         # Agent 3
-│   ├── manager_insights_agent.py   # Agent 4
-│   └── engagement_agent.py         # Agent 5
+│   ├── learning_path_curator.py    # Agent 1 — Foundry IQ grounding
+│   ├── study_plan_generator.py     # Agent 2 — Fabric IQ planning
+│   ├── assessment_agent.py         # Agent 3 — Foundry IQ assessment
+│   ├── manager_insights_agent.py   # Agent 4 — Team risk analysis
+│   └── engagement_agent.py         # Agent 5 — Work IQ scheduling
 ├── data/
-│   ├── certifications.json         # Knowledge base (Foundry IQ simulation)
+│   ├── certifications.json         # Knowledge base (Foundry IQ)
 │   ├── learner_profiles.json       # Synthetic learner data (Fabric IQ)
-│   └── work_signals.json           # Work context data (Work IQ simulation)
-├── main.py                         # Orchestrator — runs all agents in sequence
-├── .env                            # API credentials (not committed)
-├── .gitignore
+│   └── work_signals.json           # Work context data (Work IQ)
+├── templates/
+│   └── index.html                  # Flask web UI
+├── app.py                          # Web application
+├── main.py                         # Terminal orchestrator
+├── requirements.txt
 └── README.md
 
 ---
 
 ## How to Run
 
-### 1. Clone the repository
+### Web Interface (Recommended)
 ```bash
 git clone https://github.com/KARTHIK-2004-AI/learning-agent-system
 cd learning-agent-system
-```
-
-### 2. Create virtual environment
-```bash
 python -m venv .venv
-
-# Mac/Linux
-source .venv/bin/activate
-
-# Windows
-.venv\Scripts\activate
+.venv\Scripts\activate        # Windows
+source .venv/bin/activate     # Mac/Linux
+pip install -r requirements.txt
 ```
 
-### 3. Install dependencies
-```bash
-pip install openai python-dotenv
-```
-
-### 4. Set up credentials
-Create a `.env` file:
+Create `.env` file:
 GITHUB_TOKEN=your_github_token_here
 MODEL_NAME=gpt-4o
 
-### 5. Run the full system
+```bash
+python app.py
+# Open http://localhost:5000
+```
+
+### Terminal Mode
 ```bash
 python main.py
 ```
 
-### 6. Run individual agents
+### Individual Agents
 ```bash
 python agents/learning_path_curator.py
 python agents/study_plan_generator.py
@@ -217,6 +265,7 @@ The architecture is fully compatible with:
 ## Built With
 
 - Python 3.11
+- Flask — Web interface
 - OpenAI SDK (Azure-compatible)
-- GitHub Models — GPT-4o
+- GitHub Models — GPT-4o (Azure-hosted)
 - Microsoft Foundry (target deployment platform)
