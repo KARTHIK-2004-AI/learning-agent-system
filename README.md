@@ -121,7 +121,7 @@ learning-agent-system/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/learning-agent-system
+git clone https://github.com/KARTHIK-2004-AI/learning-agent-system
 cd learning-agent-system
 ```
 
