@@ -56,6 +56,19 @@ System Summary + Verdict
 | **Work IQ** | Engagement Agent reads work signals — meeting load, focus hours, preferred slots — to recommend realistic study windows |
 
 ---
+## Foundry IQ Implementation Note
+
+Real Foundry IQ connects to Azure Blob Storage, SharePoint, or OneLake.
+In this implementation, `data/certifications.json` acts as the knowledge 
+base. Agents are instructed to ONLY recommend from this source and MUST 
+cite certification IDs — replicating Foundry IQ's grounded, 
+citation-required retrieval behaviour.
+
+To connect real Foundry IQ:
+1. Upload certifications.json to Azure Blob Storage
+2. Index with Azure AI Search  
+3. Connect to Foundry Agent via knowledge base configuration
+4. Replace JSON loader with Foundry IQ retrieval call
 
 ## Agent Responsibilities
 
