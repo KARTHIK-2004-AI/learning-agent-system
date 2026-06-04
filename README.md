@@ -3,6 +3,7 @@
 > Built for: Microsoft Foundry Reasoning Agents Challenge
 <img width="1352" height="576" alt="image" src="https://github.com/user-attachments/assets/ba9d739c-c359-4679-957a-854f8b0eaa81" />
 <img width="1169" height="472" alt="image" src="https://github.com/user-attachments/assets/ea0f1c89-d5cd-41b1-bdc7-841613d4bbdf" />
+<img width="1168" height="483" alt="image" src="https://github.com/user-attachments/assets/3124f382-15ff-491c-b758-b2e3c79ff5f5" />
 <img width="1165" height="595" alt="image" src="https://github.com/user-attachments/assets/d2a7550d-d6db-4588-99e2-3b201e90c585" />
 
 
