@@ -22,10 +22,6 @@ recommendation to team-level risk analysis.
 
 ---
 
-## Live Demo
-🎥 [Watch 2 minute demo](#) — *add your video link here*
-
----
 
 ## What This System Does
 
