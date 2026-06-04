@@ -159,6 +159,8 @@ retrieval behaviour.
 ---
 
 ## Project Structure
+
+```
 learning-agent-system/
 ├── agents/
 │   ├── learning_path_curator.py    # Agent 1 — Foundry IQ grounding
@@ -174,9 +176,8 @@ learning-agent-system/
 │   └── index.html                  # Flask web UI
 ├── app.py                          # Web application
 ├── main.py                         # Terminal orchestrator
-├── requirements.txt
-└── README.md
-
+└── requirements.txt
+```
 ---
 
 ## How to Run
