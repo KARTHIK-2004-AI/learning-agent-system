@@ -51,16 +51,6 @@ recommendation to team-level risk analysis.
 ---
 
 ## Agent Architecture
-
-### Assessment Agent + Manager Insights
-![Agents Output](screenshots/agents-output.png)
-
-### Engagement Agent + Final Verdict
-![Final Verdict](screenshots/verdict.png)
-
----
-
-## Agent Architecture
 User Input 
 │ 
 ▼ 
