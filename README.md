@@ -51,32 +51,33 @@ recommendation to team-level risk analysis.
 ---
 
 ## Agent Architecture
-User Input 
-│ 
-▼ 
-[Agent 1] Learning Path Curator
-│  Recommends certifications grounded in approved knowledge base
-│
-▼
-[Agent 2] Study Plan Generator
-│  Builds week-by-week schedule based on learner capacity
-│
-▼
-[Agent 3] Assessment Agent
-│  Generates grounded practice questions + readiness verdict
-│
-▼
-[Agent 4] Manager Insights Agent
-│  Analyses entire team — surfaces risk, predicts pass rates
-│
-▼
-[Agent 5] Engagement Agent
-│  Recommends study windows based on real work patterns
-│
-▼
-System Summary + Verdict
 
----
+```
+User Input
+    │
+    ▼
+[Agent 1] Learning Path Curator
+    │  Recommends certifications grounded in approved knowledge base
+    │
+    ▼
+[Agent 2] Study Plan Generator
+    │  Builds week-by-week schedule based on learner capacity
+    │
+    ▼
+[Agent 3] Assessment Agent
+    │  Generates grounded practice questions + readiness verdict
+    │
+    ▼
+[Agent 4] Manager Insights Agent
+    │  Analyses entire team — surfaces risk, predicts pass rates
+    │
+    ▼
+[Agent 5] Engagement Agent
+    │  Recommends study windows based on real work patterns
+    │
+    ▼
+System Summary + Verdict
+```
 
 ## Microsoft IQ Layers
 
