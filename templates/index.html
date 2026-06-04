@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Learning Agent System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f1117;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0078d4, #004578);
+            padding: 24px 40px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 2px 20px rgba(0,120,212,0.3);
+        }
+
+        header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+        }
+
+        header p {
+            font-size: 13px;
+            color: #a8d4f5;
+            margin-top: 2px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .input-card {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 28px;
+        }
+
+        .input-card h2 {
+            font-size: 16px;
+            color: #0078d4;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group select,
+        .form-group input {
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            color: #e0e0e0;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: #0078d4;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #0078d4, #005a9e);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(0,120,212,0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pipeline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-step {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 12px;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .pipeline-step.active {
+            border-color: #0078d4;
+            color: #0078d4;
+            background: rgba(0,120,212,0.1);
+        }
+
+        .pipeline-step.done {
+            border-color: #107c10;
+            color: #107c10;
+            background: rgba(16,124,16,0.1);
+        }
+
+        .pipeline-arrow {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .agent-card {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 12px;
+            overflow: hidden;
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .agent-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .agent-card.visible { display: block; }
+
+        .agent-header {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #2a2d3a;
+        }
+
+        .agent-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #0078d4;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agent-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        .agent-subtitle {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .agent-body {
+            padding: 20px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #c0c0c0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .agent-body h1,
+        .agent-body h2,
+        .agent-body h3 {
+            color: #e0e0e0;
+            margin: 12px 0 6px;
+            font-size: 14px;
+        }
+
+        .agent-body p { margin-bottom: 8px; }
+
+        .agent-body ul, .agent-body ol {
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .agent-body li { margin-bottom: 4px; }
+
+        .agent-body strong { color: #0078d4; }
+
+        .agent-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+
+        .agent-body th {
+            background: #0f1117;
+            padding: 8px;
+            text-align: left;
+            color: #888;
+            font-weight: 600;
+        }
+
+        .agent-body td {
+            padding: 8px;
+            border-top: 1px solid #2a2d3a;
+        }
+
+        .loading-bar {
+            height: 3px;
+            background: #2a2d3a;
+            border-radius: 2px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .loading-bar.visible { display: block; }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #0078d4, #00bcf2);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #0f2d1a, #0a1f12);
+            border: 1px solid #107c10;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .summary-card.visible { display: block; }
+
+        .summary-card h3 {
+            color: #107c10;
+            margin-bottom: 12px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .verdict {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        .loading-text {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            padding: 20px;
+            display: none;
+        }
+
+        .loading-text.visible { display: block; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0f1117; }
+        ::-webkit-scrollbar-thumb { background: #2a2d3a; border-radius: 2px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🧠 Enterprise Learning Agent System</h1>
+        <p>Multi-agent AI for enterprise certification management</p>
+    </div>
+    <span class="badge">Microsoft Foundry Challenge</span>
+</header>
+
+<div class="container">
+
+    <!-- Input Form -->
+    <div class="input-card">
+        <h2>⚙ Configure Learner</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Learner ID</label>
+                <select id="learner_id">
+                    <option value="L-1001">L-1001 — Cloud Engineer</option>
+                    <option value="L-1002">L-1002 — DevOps Engineer</option>
+                    <option value="L-1003">L-1003 — Data Engineer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select id="role">
+                    <option value="Cloud Engineer">Cloud Engineer</option>
+                    <option value="DevOps Engineer">DevOps Engineer</option>
+                    <option value="Data Engineer">Data Engineer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Target Certification</label>
+                <select id="cert_id">
+                    <option value="AZ-204">AZ-204 — Azure Developer</option>
+                    <option value="AZ-400">AZ-400 — DevOps Solutions</option>
+                    <option value="DP-203">DP-203 — Data Engineering</option>
+                    <option value="AZ-104">AZ-104 — Azure Administrator</option>
+                    <option value="AZ-900">AZ-900 — Azure Fundamentals</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Current Practice Score (%)</label>
+                <input type="number" id="current_score" value="45" min="0" max="100">
+            </div>
+            <div class="form-group">
+                <label>Current Score Display</label>
+                <input type="text" id="score_display" value="45% — Needs More Prep" readonly
+                    style="background:#0f1117; color:#f0a500;">
+            </div>
+            <div class="form-group full">
+                <label>Learning Goal</label>
+                <input type="text" id="goal"
+                    value="become proficient in Azure cloud development and deployment"
+                    placeholder="Describe what the learner wants to achieve...">
+            </div>
+        </div>
+        <button class="generate-btn" id="generateBtn" onclick="generatePlan()">
+            ▶ Run All 5 Agents
+        </button>
+    </div>
+
+    <!-- Pipeline Status -->
+    <div class="pipeline" id="pipeline" style="display:none">
+        <div class="pipeline-step" id="step1">Agent 1: Curator</div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step" id="step2">Agent 2: Planner</div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step" id="step3">Agent 3: Assessor</div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step" id="step4">Agent 4: Manager</div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step" id="step5">Agent 5: Engagement</div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-bar" id="loadingBar">
+        <div class="loading-progress" id="loadingProgress"></div>
+    </div>
+    <div class="loading-text" id="loadingText">
+        Running agents... this takes 20-30 seconds
+    </div>
+
+    <!-- Results -->
+    <div class="results-grid">
+        <div class="agent-card" id="card1">
+            <div class="agent-header">
+                <div class="agent-number">1</div>
+                <div>
+                    <div class="agent-title">Learning Path Curator</div>
+                    <div class="agent-subtitle">Foundry IQ — Grounded knowledge retrieval</div>
+                </div>
+            </div>
+            <div class="agent-body" id="result1"></div>
+        </div>
+
+        <div class="agent-card" id="card2">
+            <div class="agent-header">
+                <div class="agent-number">2</div>
+                <div>
+                    <div class="agent-title">Study Plan Generator</div>
+                    <div class="agent-subtitle">Fabric IQ — Semantic capacity planning</div>
+                </div>
+            </div>
+            <div class="agent-body" id="result2"></div>
+        </div>
+
+        <div class="agent-card" id="card3">
+            <div class="agent-header">
+                <div class="agent-number">3</div>
+                <div>
+                    <div class="agent-title">Assessment Agent</div>
+                    <div class="agent-subtitle">Foundry IQ — Grounded question generation</div>
+                </div>
+            </div>
+            <div class="agent-body" id="result3"></div>
+        </div>
+
+        <div class="agent-card" id="card4">
+            <div class="agent-header">
+                <div class="agent-number">4</div>
+                <div>
+                    <div class="agent-title">Manager Insights</div>
+                    <div class="agent-subtitle">Work IQ + Fabric IQ — Team risk analysis</div>
+                </div>
+            </div>
+            <div class="agent-body" id="result4"></div>
+        </div>
+
+        <div class="agent-card full-width" id="card5">
+            <div class="agent-header">
+                <div class="agent-number">5</div>
+                <div>
+                    <div class="agent-title">Engagement Agent</div>
+                    <div class="agent-subtitle">Work IQ — Context-aware study scheduling</div>
+                </div>
+            </div>
+            <div class="agent-body" id="result5"></div>
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-card" id="summaryCard">
+        <h3>✅ System Summary</h3>
+        <div class="verdict" id="verdictText"></div>
+    </div>
+
+</div>
+
+<script>
+    // Update score display
+    document.getElementById('current_score').addEventListener('input', function() {
+        const score = parseInt(this.value);
+        let label = score >= 75 ? '🎉 Ready for exam!' :
+                    score >= 60 ? '⚠️ Almost Ready' : '📚 Needs More Prep';
+        document.getElementById('score_display').value = score + '% — ' + label;
+        document.getElementById('score_display').style.color =
+            score >= 75 ? '#107c10' : score >= 60 ? '#f0a500' : '#d13438';
+    });
+
+    async function generatePlan() {
+        const btn = document.getElementById('generateBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Running Agents...';
+
+        // Show pipeline and loading
+        document.getElementById('pipeline').style.display = 'flex';
+        document.getElementById('loadingBar').classList.add('visible');
+        document.getElementById('loadingText').classList.add('visible');
+
+        // Hide old results
+        ['card1','card2','card3','card4','card5'].forEach(id => {
+            document.getElementById(id).classList.remove('visible');
+        });
+        document.getElementById('summaryCard').classList.remove('visible');
+
+        // Animate progress bar
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const steps = ['step1','step2','step3','step4','step5'];
+        
+        const progressInterval = setInterval(() => {
+            progress = Math.min(progress + 1, 90);
+            progressBar.style.width = progress + '%';
+            const stepIndex = Math.floor(progress / 20);
+            steps.forEach((s, i) => {
+                const el = document.getElementById(s);
+                if (i < stepIndex) el.className = 'pipeline-step done';
+                else if (i === stepIndex) el.className = 'pipeline-step active';
+                else el.className = 'pipeline-step';
+            });
+        }, 300);
+
+        try {
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    learner_id: document.getElementById('learner_id').value,
+                    role: document.getElementById('role').value,
+                    goal: document.getElementById('goal').value,
+                    cert_id: document.getElementById('cert_id').value,
+                    current_score: document.getElementById('current_score').value
+                })
+            });
+
+            const data = await response.json();
+
+            clearInterval(progressInterval);
+            progressBar.style.width = '100%';
+            steps.forEach(s => document.getElementById(s).className = 'pipeline-step done');
+
+            setTimeout(() => {
+                document.getElementById('loadingBar').classList.remove('visible');
+                document.getElementById('loadingText').classList.remove('visible');
+
+                // Show results one by one
+                const cards = [
+                    ['card1', 'result1', data.learning_path],
+                    ['card2', 'result2', data.study_plan],
+                    ['card3', 'result3', data.assessment],
+                    ['card4', 'result4', data.manager_insights],
+                    ['card5', 'result5', data.engagement],
+                ];
+
+                cards.forEach(([cardId, resultId, content], i) => {
+                    setTimeout(() => {
+                        document.getElementById(resultId).innerHTML = content;
+                        document.getElementById(cardId).classList.add('visible');
+                    }, i * 200);
+                });
+
+                // Show summary
+                setTimeout(() => {
+                    const score = parseInt(document.getElementById('current_score').value);
+                    const role = document.getElementById('role').value;
+                    const cert = document.getElementById('cert_id').value;
+                    const verdict = score >= 75
+                        ? `🎉 ${role} is READY for ${cert} exam!`
+                        : score >= 60
+                        ? `⚠️ ${role} is ALMOST READY — 1-2 more weeks recommended for ${cert}`
+                        : `📚 ${role} NEEDS MORE PREP — follow the generated study plan for ${cert}`;
+
+                    document.getElementById('verdictText').textContent = verdict;
+                    document.getElementById('summaryCard').classList.add('visible');
+                }, 1200);
+
+                btn.disabled = false;
+                btn.textContent = '▶ Run All 5 Agents';
+            }, 500);
+
+        } catch (error) {
+            clearInterval(progressInterval);
+            alert('Error running agents. Make sure the server is running.');
+            btn.disabled = false;
+            btn.textContent = '▶ Run All 5 Agents';
+        }
+    }
+</script>
+
+</body>
+</html>
